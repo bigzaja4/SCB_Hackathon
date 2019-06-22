@@ -8,14 +8,6 @@ const pool = mariadb.createPool({
     database: 'hackathonScb'
 })
 
-// pool.getConnection()
-// .then(conn => {
-//     conn.query("SELECT t.* FROM scbhackathon.User t ORDER BY SecretId DESC")
-//     .then( result => {
-//         console.log(result[0]);
-//     })
-// })
-
 module.exports = {
     pool
 
