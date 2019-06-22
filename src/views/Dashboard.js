@@ -1,39 +1,70 @@
 import React from 'react';
 import './Dashboard.css';
-import { Grid, Image } from 'semantic-ui-react'
+import { Grid } from 'semantic-ui-react'
 
-function Dashboard() {
-  return (
-    <div className="Dashboard">
+export default class Dashboard extends React.Component {
 
-      <div className="DHeader">
-        &nbsp;&nbsp;&nbsp;&nbsp;Dashboard
+  state = {
+    transac: [{ amount: 360, date: "15:00 12/05/61" },
+    { amount: 120, date: "15:00 12/05/61" },
+    { amount: 590, date: "15:00 12/05/61" },
+    { amount: 860, date: "15:00 12/05/61" },
+    { amount: 860, date: "15:00 12/05/61" },
+    { amount: 860, date: "15:00 12/05/61" },
+    { amount: 860, date: "15:00 12/05/61" },
+    { amount: 860, date: "15:00 12/05/61" },]
+  }
+  render() {
+    return (
+      <div className="Dashboard">
+
+        <div className="DHeader">
+          &nbsp;&nbsp;&nbsp;&nbsp;Dashboard
       </div>
 
-      <div className="NameUser">
-        <h1 className="subtitle is-3">
-          &nbsp;&nbsp;&nbsp;&nbsp;Hello, Mr.John
+        <div className="NameUser">
+          <h1 className="subtitle is-3">
+            &nbsp;&nbsp;&nbsp;&nbsp;Hello, Mr.John
         </h1>
-      </div>
+        </div>
 
-      <div className="TransactionBox">
-        <Grid id="DGrid" columns={3}>
-          <Grid.Row id="DRow">
-            <Grid.Column width={7}>
-              Amount
+        <div className="TransactionBox">
+          <Grid id="DGrid" columns={3}>
+            <Grid.Row id="DRow">
+              <Grid.Column width={7}>
+                Amount
             </Grid.Column>
-            <Grid.Column width={1}>
-              |
+              <Grid.Column width={1}>
+
+              </Grid.Column>
+              <Grid.Column width={7}>
+                Date
             </Grid.Column>
-            <Grid.Column width={7}>
-              Date
-            </Grid.Column>
-          </Grid.Row>
+            </Grid.Row>
+            {
+              this.state.transac.map(e => {
+                return (
+                  <Grid.Row id="DRowRow">
+                    <Grid.Column width={7}>
+                      <span style={{color:"green",fontWeight:"bold"}}>{e.amount}.-</span>
+              </Grid.Column>
+                    <Grid.Column width={1}>
+
+                    </Grid.Column>
+                    <Grid.Column width={7}>
+                      {e.date}
+              </Grid.Column>
+                  </Grid.Row>
+                )
+              })
+            }
+
           </Grid>
-      </div>
+        </div>
 
       </div>
-      );
-    }
-    
-    export default Dashboard;
+    );
+  }
+
+}
+

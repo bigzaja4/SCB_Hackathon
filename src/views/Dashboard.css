@@ -38,19 +38,35 @@
 box-shadow: 0px 2px 19px -8px rgba(0,0,0,0.54);
 bottom: 5%;
 margin-left: 5%;
+overflow: scroll;
+overflow-x: hidden;
 }
 .TransactionBox p {
     margin-top: 10%;
 }
 
 #DRow{
+    
     width:100%;
     display: flex;
+    align-items: flex-start;
     justify-content: space-around;
     text-align: center;
+    color: #392E4F;
+    font-weight: bold;
 }
 #DGrid{
+    flex-flow: column nowrap;
+    margin-top: 10%;
     width: 100%;
     display: flex;
     justify-content: center;
+}
+
+#DRowRow{
+    width:100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-around;
+    text-align: center;
 }
