@@ -75,8 +75,13 @@ app.get("/check-slip", async (req, res) => {
 });
 
 app.get("/qrcode", async (req, res) => {
-  const qrcode = await api.createQrcode(req.accessToken);
-  res.send(qrcode);
+  const { amount, ref1, ref2, ref3 } = req.query;
+  if (amount && ref1 && ref2 && ref3) {
+    const qrcode = await api.createQrcode(req.query, req.accessToken);
+    res.send(qrcode);
+  } else {
+    res.status(400).send("need amount, ref1, ref2, ref3");
+  }
 });
 
 app.get("/deeplink", async (req, res) => {
@@ -90,18 +95,22 @@ app.post("/callback", (req, res) => {
 });
 
 async function setAccessToken({ data }) {
-  const res = await setAsync(
-    "AccessToken",
-    data.tokenType + " " + data.accessToken,
-    "EX",
-    data.expiresAt
-  );
-  return res;
+  try {
+    const res = await setAsync(
+      "AccessToken",
+      data.tokenType + " " + data.accessToken,
+      "EX",
+      data.expiresAt
+    );
+    return res;
+  } catch (error) {}
 }
 
 async function getAccessToken() {
-  const res = await getAsync("AccessToken");
-  return res;
+  try {
+    const res = await getAsync("AccessToken");
+    return res;
+  } catch (error) {}
 }
 
 const PORT = global.gConfig.node_port || 3002;
