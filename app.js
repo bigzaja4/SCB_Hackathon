@@ -11,12 +11,11 @@ const app = express();
 const config = require("./config/config.js");
 global.gConfig = config;
 
-const auth = require("./services/auth");
+const api = require("./services/scb-api");
 
 const client = redis.createClient(
   global.gConfig.redis_port,
-  global.gConfig.redis_host,
-  { password: global.gConfig.redis_host, ttl: 1 }
+  global.gConfig.redis_host
 );
 
 // app.use(cookieParser());
@@ -35,26 +34,34 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //   })
 // );
 
-
-
 app.get("/api", (req, res) => {
   let publicBattles = [1, 2, 3];
   res.json(publicBattles);
 });
 
 app.get("/test", async (req, res) => {
-  const data = await auth.login();
-  console.log(data);
-  res.send(data);
+  const data = await api.login();
+  const slip = await api.slipVerification(
+    "201906225f3GFy43Qeh1vHp",
+    data.data.tokenType + " " + data.data.accessToken
+  );
+  console.log(slip);
+
+  res.send(slip);
+});
+
+app.post("/callback", (req, res) => {
+  console.log(req.body);
+  res.send(req.body);
 });
 
 const PORT = global.gConfig.node_port || 3002;
 app.listen(PORT, async () => {
   console.log(`Server listening on port ${PORT}...`);
-  const data = await auth.login();
+  const data = await api.login();
   client.set(
     "AccessToken",
-    data.data.accessToken,
+    data.data.tokenType + " " + data.data.accessToken,
     "EX",
     data.data.expiresAt,
     redis.print
