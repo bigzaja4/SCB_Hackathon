@@ -6,9 +6,9 @@ import Welcome from './views/Welcome'
 function App() {
   return (
     <Router>
-      <Route exact path="/" component={Login} />
+      <Route path="welcome" component={Welcome} />
       <Route path="home" component={Login} />
-      {/* <Route path="welcome" component={Welcome} /> */}
+      <Route exact path="/" component={Login} />
     </Router>
   )
 }
