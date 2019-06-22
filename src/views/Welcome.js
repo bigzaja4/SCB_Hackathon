@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { Color } from '../utils'
 import Welcomecard from '../components/Welcomecard'
 import ReactFullpage from '@fullpage/react-fullpage'
 import des1 from '../assets/des1.png'
@@ -12,6 +11,11 @@ import des6 from '../assets/des6.png'
 import des7 from '../assets/des7.png'
 import des8 from '../assets/des8.png'
 import './Dashboard.css'
+import {Color} from '../utils'
+import { Input } from 'semantic-ui-react'
+import { Card, Icon, Image } from 'semantic-ui-react'
+
+
 
 
 const Container = styled.div`
@@ -26,7 +30,7 @@ const CardContainer = styled.div`
 
 const infomationData  = [
     {
-        title:'1. ไปที่เว็บ https://developers.facebook.com/ แล้วกดปุ่ม สร้างแอพ',
+        title:`1. ไปที่เว็บ "https://developers.facebook.com"แล้วกดปุ่ม สร้างแอพ`,
         image:des1
     },
     {
@@ -48,15 +52,16 @@ const infomationData  = [
     {
         title: '6. คัดลอก access token',
         image:des7
-    }
+    },
+    {}
 ]
 
 export default class extends Component {
     state = {
         index:0,
-        welcomeCss:'TransactionBoxIn'
+        welcomeCss:'TransactionBoxIn',
+        loading:false
     }
-
 
 
     componentDidMount() {
@@ -70,21 +75,26 @@ export default class extends Component {
             setTimeout(() => {this.setState({index:nextState,welcomeCss:'TransactionBoxIn'})},800)
         })
         console.log('clicked',nextState)
+        console.log('length',infomationData.length)
     }
 
-
+    handleSubmitToken = () => {
+        console.log('axios')
+    }
 
     render() {
         let {index} = this.state
         let selectedInfomationDatat = infomationData[index]
         return (
-            <Container style={{height:'100vh',paddingTop:'200px'}}>
+            <Container style={{height:'100vh',paddingTop:'160px',paddingLeft:'10px'}}>
+                <h2 style={{marginButtom:'50px',position:'relative',top:'-70px',color: Color.secondary }}>Getting Started</h2>
                 <CardContainer>
                     <Welcomecard
                     image={selectedInfomationDatat.image}
                     title={selectedInfomationDatat.title}
                     handleClick={this.handleClickNext}
                     className={this.state.welcomeCss}
+                    special={this.state.index == infomationData.length-1 ? true : false}
                     /> 
                 </CardContainer>
             </Container>
