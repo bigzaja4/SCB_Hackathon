@@ -3,6 +3,7 @@ export const Color = {
   secondary: '#A2D376',
   primaryText: '#000000',
   secondarytext: '#505050',
+  background: '#FFFFFF',
 }
 
 export const Container = {
