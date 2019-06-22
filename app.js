@@ -8,7 +8,7 @@ const bodyParser = require("body-parser");
 const redis = require("redis"); //เป็นตัวสำหรับเชื่อมต่อไปยัง host เครื่องนั้นๆ
 const { promisify } = require("util");
 const app = express();
-const loginRouter = require('./routes/router');
+const loginRouter = require("./routes/router");
 
 const config = require("./config/config.js");
 global.gConfig = config;
@@ -37,7 +37,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //     saveUninitialized: true
 //   })
 // );
-app.use("/login",loginRouter);
+app.use("/login", loginRouter);
 
 async function checkAccessToken(req, res, next) {
   const accessToken = await getAccessToken();
@@ -76,8 +76,12 @@ app.get("/check-slip", async (req, res) => {
 
 app.get("/qrcode", async (req, res) => {
   const qrcode = await api.createQrcode(req.accessToken);
-  console.log(qrcode);
   res.send(qrcode);
+});
+
+app.get("/deeplink", async (req, res) => {
+  const deepLink = await api.createDeepLink(req.accessToken);
+  res.send(deepLink);
 });
 
 app.post("/callback", (req, res) => {
