@@ -18,6 +18,24 @@ const regisCon = (req,res) => {
     })
 }
 
+const keyAndVerify = (req,res) => {
+    register.updateKey(req.body)
+    .then(result => {
+        if(result){
+            res.send("Updated");
+        }
+        else{
+            res.send("Not Updated");
+        }
+    })
+    .catch(err => {
+        console.log(err);
+        res.send("Something went wrong.");
+    })
+    
+}
+
 module.exports = {
-    regisCon
+    regisCon,
+    keyAndVerify
 }

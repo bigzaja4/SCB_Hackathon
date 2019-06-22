@@ -32,7 +32,25 @@ async function register(registerData){
     
 }
 
+function updateKey(jsonKey){
+    let keyVerify = jsonKey;
+    return connection.pool.query(`UPDATE scbhackathon.Authentication SET Token = '${keyVerify.token}', Verify = '${keyVerify.verify}' WHERE Id = ${keyVerify.userId}`)
+    .then(result => {        
+        if(result.affectedRows == 1){
+            return true;
+        }
+        else{
+            return false;
+        }
+    })
+    .catch(err => {
+        console.log(err);
+        return false
+    })
+}
+
 module.exports = {
     register,
-    checkIsUser
+    checkIsUser,
+    updateKey
 }
