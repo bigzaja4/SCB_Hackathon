@@ -8,6 +8,9 @@ const config = {
     APIKEY: "l7a20ad00b6aca48ed8bcba74f501710e3",
     APISecret: "a198d9439e92489a8396aefaa2c1e340",
     requestUId: "46577477-d5cf-4f46-8cb4-7508415ad838",
+    BillerID: "466546240814419",
+    MerchantID: "730747667056559",
+    TerminalID: "507804412000648",
     redis_port: 6379,
     redis_host: "scbdreamteam.tk",
     redis_password: ""
@@ -25,6 +28,9 @@ const config = {
     APIKEY: "l7a20ad00b6aca48ed8bcba74f501710e3",
     APISecret: "a198d9439e92489a8396aefaa2c1e340",
     requestUId: "46577477-d5cf-4f46-8cb4-7508415ad838",
+    BillerID: "466546240814419",
+    MerchantID: "730747667056559",
+    TerminalID: "507804412000648",
     redis_port: 6379,
     redis_host: "scbdreamteam.tk",
     redis_password: ""

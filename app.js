@@ -50,6 +50,15 @@ app.get("/test", async (req, res) => {
   res.send(slip);
 });
 
+app.get("/qrcode", async (req, res) => {
+  const data = await api.login();
+  const qrcode = await api.createQrcode(
+    data.data.tokenType + " " + data.data.accessToken
+  );
+  console.log(qrcode);
+  res.send(qrcode);
+});
+
 app.post("/callback", (req, res) => {
   console.log(req.body);
   res.send(req.body);
