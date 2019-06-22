@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 // const RedisStore = require("connect-redis")(session);
 const redis = require("redis"); //เป็นตัวสำหรับเชื่อมต่อไปยัง host เครื่องนั้นๆ
 const app = express();
+const loginRouter = require('./routes/router');
 
 const config = require("./config/config.js");
 global.gConfig = config;
@@ -34,7 +35,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //     saveUninitialized: true
 //   })
 // );
-
+app.use("/login",loginRouter);
 
 
 app.get("/api", (req, res) => {
