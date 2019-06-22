@@ -162,9 +162,9 @@ bottom: 5%;
 margin-left: 5%;
 overflow: scroll;
 overflow-x: hidden;
-transform: translateY(30px);
-opacity: 0;
-animation: boxingin 1s ease-in-out forwards;
+/* transform: translateY(30px); */
+/* opacity: 0; */
+/* animation: boxingin 1s ease-in-out forwards; */
 }
 
   .TransactionBoxOut{
@@ -184,9 +184,9 @@ bottom: 5%;
 margin-left: 5%;
 overflow: scroll;
 overflow-x: hidden;
-transform: translateY(30px);
-opacity: 0;
-animation: boxingout 1s ease-in-out forwards;
+/* transform: translateY(30px); */
+/* opacity: 0; */
+/* animation: boxingout 1s ease-in-out forwards; */
 }
   
   @keyframes boxingout {

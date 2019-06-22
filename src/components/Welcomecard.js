@@ -6,14 +6,14 @@ export default ({ handleClick, title, image, className, special, token,verify,
 handleInputToken,handleInputVerify ,handleSubmit}) => {
     if (!special) {
         return (
-            <Card className={className}>
-                <Image style={{ width: '300px', height: '150px', overFlow: 'hidden' }} src={image} wrapped ui={false} />
+            <Card style={{overflowY: 'hidden',width:'330px'}} className={className}>
+                <Image style={{ width: '100%', overFlow: 'hidden' }} src={image} wrapped ui={false} />
                 <Card.Content>
-                    <Card.Header style={{ paddingTop: '69px' }}>
+                    <Card.Header style={{ paddingTop: '29px' }}>
                         {title}
                     </Card.Header>
                 </Card.Content>
-                <Card.Content extra>
+                <Card.Content textAlign={'right'} extra>
                     <button onClick={handleClick}> next </button>
                 </Card.Content>
             </Card>

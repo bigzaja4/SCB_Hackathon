@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Button, Form, Grid, Message } from 'semantic-ui-react'
 import { Color } from '../utils'
 import './Login.css'
+import appLogo from '../assets/zync.png'
 
 const Container = styled.div`
   background-color: #f0f6ff;
@@ -42,6 +43,8 @@ export default class extends Component {
       <Container>
         <Grid textAlign='center' style={{ height: '100vh', margin: 0 }} verticalAlign='middle'>
           <Grid.Column className="LoginBox">
+          <img style={{width: '99px',paddingBottom:'7px'}} src={appLogo} />
+          <h2 style={{paddingBottom:'4px'}}>Zync</h2>
           <Form size='large'>
             <Form.Input fluid icon='user' iconPosition='left' placeholder='username' onChange={(e)=>{this.setState({username: e.target.value})}} />
             <Form.Input

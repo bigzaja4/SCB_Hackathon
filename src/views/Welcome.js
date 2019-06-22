@@ -15,16 +15,19 @@ import Swal from 'sweetalert2'
 import {Color} from '../utils'
 import { Input } from 'semantic-ui-react'
 import { Card, Icon, Image } from 'semantic-ui-react'
+import appLogo from '../assets/zync.png'
+
 
 
 
 
 const Container = styled.div`
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 52.6%, ${() => Color.secondary} 100%), ${() => Color.primary};
+  background: ${Color.background};
 `
 
 const CardContainer = styled.div`
     display: flex;
+    top: -37px;
     justify-content: center;
     align-items: center;
 `
@@ -122,8 +125,9 @@ export default class extends Component {
         let {index} = this.state
         let selectedInfomationDatat = infomationData[index]
         return (
-            <Container style={{height:'100vh',paddingTop:'160px',paddingLeft:'10px'}}>
-                <h2 style={{marginButtom:'50px',position:'relative',top:'-70px',color: Color.secondary }}>Getting Started</h2>
+            <Container style={{height:'100vh',paddingTop:'160px'}}>
+                <Image src={appLogo} style={{width:'78px'}} />
+                <h2 style={{paddingLeft: '79px',position:'relative',top:'-85px',color: '#E7C200' }}>Getting Started</h2>
                 <CardContainer>
                     <Welcomecard
                     image={selectedInfomationDatat.image}
