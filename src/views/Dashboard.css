@@ -42,9 +42,15 @@ margin-left: 5%;
 .TransactionBox p {
     margin-top: 10%;
 }
-#DRow {
-    flex-direction: row;
+
+#DRow{
+    width:100%;
+    display: flex;
     justify-content: space-around;
-    display:flex;
+    text-align: center;
+}
+#DGrid{
     width: 100%;
+    display: flex;
+    justify-content: center;
 }

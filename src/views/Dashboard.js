@@ -1,7 +1,6 @@
 import React from 'react';
 import './Dashboard.css';
-import { Container, Row, Col, } from 'reactstrap';
-
+import { Grid, Image } from 'semantic-ui-react'
 
 function Dashboard() {
   return (
@@ -18,15 +17,23 @@ function Dashboard() {
       </div>
 
       <div className="TransactionBox">
-        <Row id="DRow">
-        <Col xs="4" sm="10">Amount</Col>
-          <Col xs="4" sm="1">|</Col>
-          <Col xs="4" sm="1">Date</Col>
-        </Row>
+        <Grid id="DGrid" columns={3}>
+          <Grid.Row id="DRow">
+            <Grid.Column width={7}>
+              Amount
+            </Grid.Column>
+            <Grid.Column width={1}>
+              |
+            </Grid.Column>
+            <Grid.Column width={7}>
+              Date
+            </Grid.Column>
+          </Grid.Row>
+          </Grid>
       </div>
 
-    </div>
-  );
-}
-
-export default Dashboard;
+      </div>
+      );
+    }
+    
+    export default Dashboard;
