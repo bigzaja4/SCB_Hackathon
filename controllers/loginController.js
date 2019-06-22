@@ -1,4 +1,5 @@
 const login = require('../services/login');
+const regisService = require('../services/registration');
 const jwt = require("jwt-simple");
 
 const loginMiddleware = (req, res, next) => {
@@ -7,15 +8,14 @@ const loginMiddleware = (req, res, next) => {
         if(result) next();
         else res.send("Wrong username and password") 
     })
-    //ถ้า username password ไม่ตรงให้ส่งว่า Wrong username and password
  }
  
 const getLogin = (req,res) => {
     const payload = {
         sub: req.body.username,
-        iat: new Date().getTime()//มาจากคำว่า issued at time (สร้างเมื่อ)
+        iat: new Date().getTime()
      };
-     const SECRET = "MY_SECRET_KEY"; //ในการใช้งานจริง คีย์นี้ให้เก็บเป็นความลับ
+     const SECRET = "MY_SECRET_KEY";
      res.send(jwt.encode(payload, SECRET));
 }
 
@@ -29,7 +29,7 @@ const jwtOptions = {
    secretOrKey: "MY_SECRET_KEY",//SECRETเดียวกับตอนencodeในกรณีนี้คือ MY_SECRET_KEY
 }
 const jwtAuth = new JwtStrategy(jwtOptions, (payload, done) => {
-   if(payload.sub=== "kennaruk") done(null, true);
+   if( login.checkIsLoginPass(payload.sub) ) done(null, payload.sub);
    else done(null, false);
 });
 
@@ -43,4 +43,3 @@ module.exports = {
     getLogin,
     requireJWTAuth
 }
-
