@@ -9,14 +9,6 @@ const Container = styled.div`
   height: 100vh;
 `
 
-const InputGroup = styled.div`
-  background-color: ${Color.background};
-  position: absolute;
-  left: 36px;
-  top: 316px;
-`
-
-
 export default class extends Component {
   state = {
 
