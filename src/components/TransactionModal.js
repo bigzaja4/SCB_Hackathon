@@ -3,18 +3,22 @@ import styled from 'styled-components'
 import { Grid, Image, Card } from 'semantic-ui-react'
 import { Container, bankNumberFormatter } from '../utils'
 import scbLogo from '../assets/scb-logo.jpg'
+import './tran.css'
 
 const Background = styled.div`
   background-color: rgba(0, 0, 0, 0.43);
   width: 100%;
   height: 100vh;
   position: absolute;
-  z-index: 1;
+  z-index: 4;
   padding 0 25px;
 `
 
 const ModalContainer = styled(Grid)`
   border-radius: ${Container.borderRadius};
+  z-index: 10;
+  position: relative;
+
 `
 
 const WrapCardDescription = styled(Grid.Column)`
@@ -27,7 +31,7 @@ export default props => {
     data = [],
   } = props
   return (
-    <Background>
+    <Background onClick={()=> {props.closeModal()}} className="EIEI">
       <ModalContainer textAlign='center' style={{ height: '100vh', paddingBottom: 200 }} verticalAlign='middle'>
         <Grid.Column style={{ maxWidth: 450}}>
           <Card centered>
