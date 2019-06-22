@@ -1,14 +1,11 @@
 import React from 'react'
 import { Card, Icon, Image } from 'semantic-ui-react'
+import '../views/Dashboard.css'
 
-export default ({handleClick,title,image}) => (
-    <Card>
+export default ({handleClick,title,image,className}) => (
+    <Card className={className}>
         <Image src={image} wrapped ui={false} />
         <Card.Content>
-            <Card.Header>Matthew</Card.Header>
-            <Card.Meta>
-                <span className='date'>Joined in 2015</span>
-            </Card.Meta>
             <Card.Description>
                 {title}
             </Card.Description>

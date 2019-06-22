@@ -142,4 +142,68 @@ animation: boxin 1s ease-in-out forwards;
     }
   }
 
+  .TransactionBoxIn{
+    z-index: 1;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    width: 90%;
+    height: 60vh;
+    background: white;
+    border-radius: 10px;
+    color: rgb(136, 136, 136);
+    -webkit-box-shadow: 0px 2px 19px -8px rgba(0,0,0,0.54);
+-moz-box-shadow: 0px 2px 19px -8px rgba(0,0,0,0.54);
+box-shadow: 0px 2px 19px -8px rgba(0,0,0,0.54);
+bottom: 5%;
+margin-left: 5%;
+overflow: scroll;
+overflow-x: hidden;
+transform: translateY(30px);
+opacity: 0;
+animation: boxingin 1s ease-in-out forwards;
+}
+
+  .TransactionBoxOut{
+    z-index: 1;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    width: 90%;
+    height: 60vh;
+    background: white;
+    border-radius: 10px;
+    color: rgb(136, 136, 136);
+    -webkit-box-shadow: 0px 2px 19px -8px rgba(0,0,0,0.54);
+-moz-box-shadow: 0px 2px 19px -8px rgba(0,0,0,0.54);
+box-shadow: 0px 2px 19px -8px rgba(0,0,0,0.54);
+bottom: 5%;
+margin-left: 5%;
+overflow: scroll;
+overflow-x: hidden;
+transform: translateY(30px);
+opacity: 0;
+animation: boxingout 1s ease-in-out forwards;
+}
   
+  @keyframes boxingout {
+    0% {
+        opacity: 1;
+        transform: translateX(-20px)
+    }
+    100%{
+        opacity: 0;
+        transform: translateX(-30px)
+    }
+}
+
+  @keyframes boxingin {
+    0% {
+        opacity: 0;
+        transform: translateX(20px)
+    }
+    100%{
+        opacity: 1;
+        transform: translateX(-20px)
+    }
+}

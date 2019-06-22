@@ -11,6 +11,8 @@ import des5 from '../assets/des5.png'
 import des6 from '../assets/des6.png'
 import des7 from '../assets/des7.png'
 import des8 from '../assets/des8.png'
+import './Dashboard.css'
+
 
 const Container = styled.div`
   background: linear-gradient(180deg, rgba(255, 255, 255, 0) 52.6%, ${() => Color.secondary} 100%), ${() => Color.primary};
@@ -40,18 +42,19 @@ const infomationData  = [
         image:des2
     },
     {
-        title: '3. เลือกเพจที่จะมาต่ากับแอพ ',
+        title: '5. เลือกเพจที่จะมาต่ากับแอพ ',
         image:des6
     },
     {
-        title: '3. คัดลอก access token',
+        title: '6. คัดลอก access token',
         image:des7
     }
 ]
 
 export default class extends Component {
     state = {
-
+        index:0,
+        welcomeCss:'TransactionBoxIn'
     }
 
 
@@ -61,34 +64,29 @@ export default class extends Component {
         console.log("****** welcome developmetn")
     }
 
-    moveDown = (fullpageApi) => {
-        fullpageApi.moveSectionDown()
+    handleClickNext = () => {
+        let nextState = (this.state.index+1)%infomationData.length
+        this.setState({welcomeCss:'TransactionBoxOut'},() => {
+            setTimeout(() => {this.setState({index:nextState,welcomeCss:'TransactionBoxIn'})},800)
+        })
+        console.log('clicked',nextState)
     }
 
+
+
     render() {
+        let {index} = this.state
+        let selectedInfomationDatat = infomationData[index]
         return (
-            <Container style={{height:'100vh'}}>
+            <Container style={{height:'100vh',paddingTop:'200px'}}>
                 <CardContainer>
-                <ReactFullpage
-                    render={({ state, fullpageApi }) => {
-                    return (
-                       <center>
-                            <ReactFullpage.Wrapper
-                            style={{
-                                textAlign:'center',
-                                paddingLeft:'66px'
-                            }}>
-                                {infomationData.map(item => (
-                                     <Welcomecard 
-                                     title={item.title} 
-                                     image={item.image} 
-                                     onClick={() => fullpageApi.moveSectionDown()} />
-                                ))}
-                        </ReactFullpage.Wrapper>
-                       </center>
-                    );
-                    }}
-                />                </CardContainer>
+                    <Welcomecard
+                    image={selectedInfomationDatat.image}
+                    title={selectedInfomationDatat.title}
+                    handleClick={this.handleClickNext}
+                    className={this.state.welcomeCss}
+                    /> 
+                </CardContainer>
             </Container>
         )
     }
