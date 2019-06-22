@@ -8,35 +8,24 @@ export default class Dashboard extends React.Component {
 
   state = {
     userName: "Mr. John",
-    data:[
-      {
-        sender:{
-          name:"Surasak Jaikum",
-          account:{value:"5589765781"}
-        },
-        transDate: "15/09/56",
-        transTime: "15.39",
-        paidLocalAmount: "6554",
-        transRef: "1126213wfsdf89s7df5"
-      },
-      {
-        sender:{
-          name:"Satu Muyo",
-          account:{value:"5589765782"}
-        },
-        transDate: "15/09/56",
-        transTime: "15.39",
-        paidLocalAmount: "6554",
-        transRef: "1126213wfsdf89s7df5"
-      },
-    
-    
-    ],
+    data: [],
     modal: false
   }
-closeModal = () =>{
-  this.setState({modal: !this.state.modal})
-}
+  componentDidMount(){
+    fetch('https://www.scbdreamteam.tk:3002/route/transaction',{
+      headers:{
+        "Authorization":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTU2MTIwMzQ3NDExN30.rjLuUjSzipdVd8XlgqrLgU3f_DVg4Q_VW-VotlbMKow"
+      }})
+      .then(res => res.json())
+      .then(json =>{
+        this.setState({data: this.state.data.concat(json)})
+      })
+
+
+  }
+  closeModal = () => {
+    this.setState({ modal: !this.state.modal })
+  }
 
   render() {
     const renderLineChart = (
@@ -64,13 +53,13 @@ closeModal = () =>{
         <div className="DHeader">
           &nbsp;&nbsp;&nbsp;&nbsp;Dashboard
       </div>
-
+       
         <div className="NameUser">
           <h1 className="subtitle is-3">
             &nbsp;&nbsp;&nbsp;&nbsp;Hello, {this.state.userName}
           </h1>
         </div>
-
+       
         <div className="Charty">
           {
             window.screen.availWidth > 414 ? (renderLineChart) : (renderLineChart2)
@@ -96,19 +85,19 @@ closeModal = () =>{
                 return (
                   <div id="OnHov" onClick={this.closeModal}>
 
-                  <Grid.Row id="DRowRow" >
-                    <Grid.Column width={7} >
-                      <span style={{ color: "green", fontWeight: "bold" }}>{e.paidLocalAmount}.-</span>
-                    </Grid.Column>
-                    <Grid.Column width={1}>
+                    <Grid.Row id="DRowRow" >
+                      <Grid.Column width={7} >
+                        <span style={{ color: "green", fontWeight: "bold" }}>{e.paidLocalAmount}.-</span>
+                      </Grid.Column>
+                      <Grid.Column width={1}>
 
-                    </Grid.Column>
-                    <Grid.Column width={7}>
-                      {e.transDate}
-                    </Grid.Column>
-                  </Grid.Row>
-                  
-                  </div>                  
+                      </Grid.Column>
+                      <Grid.Column width={7}>
+                        {e.transDate}
+                      </Grid.Column>
+                    </Grid.Row>
+
+                  </div>
                 )
               })
             }

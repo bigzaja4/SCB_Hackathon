@@ -1,7 +1,24 @@
 .EIEI {
     opacity: 0;
     transform: translateY(100px);
-    animation: fadein 0.3s ease-in-out forwards;
+    animation: fadein 0.1s ease-in-out forwards;
+}
+
+.CardSlideDefault {
+    opacity: 1;
+    
+}
+#CardSlideFx{
+    animation: CardSlide 0.2s ease-in-out forwards;
+}
+
+@keyframes CardSlide {
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
 }
 @keyframes fadein {
     0%{

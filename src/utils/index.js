@@ -29,7 +29,7 @@ export const bankNumberFormatter = (number, format) => {
     }
     return char
   })
-  console.log(numberArray)
-  console.log(result)
+  // console.log(numberArray)
+  // console.log(result)
   return result
 }
