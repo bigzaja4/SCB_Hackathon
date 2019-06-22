@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Grid, Image, Form, Segment, Button, Card } from 'semantic-ui-react'
+import { Grid, Image, Card } from 'semantic-ui-react'
 import { Container, bankNumberFormatter } from '../utils'
 import scbLogo from '../assets/scb-logo.jpg'
 
@@ -47,7 +47,7 @@ export default props => {
                     </Grid.Column>
                     <Grid.Column width={3} />
                     <Grid.Column width={4}>
-                      <Card.Description><strong>{(data[index] && data[index].paidLocalAmount) || '5345.455'}</strong></Card.Description>
+                      <Card.Description><strong>{Intl.NumberFormat('en-IN', {maximumSignificantDigits: 3}).format((data[index] && data[index].paidLocalAmount) || '5345.455')}</strong></Card.Description>
                     </Grid.Column>
                     <Grid.Column width={3}>
                       <Card.Description><strong>฿</strong></Card.Description>
