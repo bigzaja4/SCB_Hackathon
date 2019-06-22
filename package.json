@@ -2,6 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://www.scbdreamteam.tk:3002",
   "dependencies": {
     "@fullpage/react-fullpage": "^0.1.14",
     "add": "^2.0.6",
@@ -20,6 +21,7 @@
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.87.2",
     "styled-components": "^4.3.2",
+    "sweetalert2": "^8.13.0",
     "yarn": "^1.16.0"
   },
   "scripts": {

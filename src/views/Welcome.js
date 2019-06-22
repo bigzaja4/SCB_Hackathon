@@ -11,6 +11,7 @@ import des6 from '../assets/des6.png'
 import des7 from '../assets/des7.png'
 import des8 from '../assets/des8.png'
 import './Dashboard.css'
+import Swal from 'sweetalert2'
 import {Color} from '../utils'
 import { Input } from 'semantic-ui-react'
 import { Card, Icon, Image } from 'semantic-ui-react'
@@ -66,8 +67,6 @@ export default class extends Component {
 
     componentDidMount() {
         // MARK: Check Token
-        console.log("****** welcome developmetn")
-        console.log("process.env.",process.env)
     }
 
     handleClickNext = () => {
@@ -93,8 +92,30 @@ export default class extends Component {
         this.setState({inputToken: value})
     }
 
-    handleSubmit = () => {
-        console.log("Satate",this.state)
+    handleSubmit = async () => {
+        let data = await fetch('https://www.scbdreamteam.tk:3002/route/regisApi',{
+            method:'POST',
+            body:JSON.stringify({
+                "token":this.state.inputToken,
+                "verify":this.state.inputVerify,
+                "userId":1
+            })
+        
+        })
+        if(data.status){
+            Swal.fire(
+                'Success !',
+                'Token Registed have fun!',
+                'success'
+            ).then(() => this.props.history.push('/home'))
+        }else{
+            Swal.fire(
+                'Fail !',
+                'Please!',
+                'error'
+              )
+        }
+        console.log("Satate",data)
     }
 
     render() {
