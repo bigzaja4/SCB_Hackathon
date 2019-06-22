@@ -1,14 +1,14 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const redis = require("redis"); 
+const redis = require("redis");
 const { promisify } = require("util");
 const app = express();
 
 const config = require("./config/config.js");
 global.gConfig = config;
 
-const router = require('./routes/router');
+const router = require("./routes/router");
 const api = require("./services/scb-api");
 
 const client = redis.createClient(
@@ -22,7 +22,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use("/route",router);
+app.use("/route", router);
 
 async function checkAccessToken(req, res, next) {
   const accessToken = await getAccessToken();
@@ -57,22 +57,22 @@ app.get("/check-slip", async (req, res) => {
 });
 
 app.get("/qrcode", async (req, res) => {
-  const { amount } = req.query;
-  if (amount) {
+  const { amount, psid } = req.query;
+  if (amount && psid) {
     const qrcode = await api.createQrcode(req.query, req.accessToken);
     res.send(qrcode);
   } else {
-    res.status(400).send("need query amount");
+    res.status(400).send("need query amount and psid");
   }
 });
 
 app.get("/deeplink", async (req, res) => {
-  const { amount } = req.query;
-  if (amount) {
+  const { amount, psid } = req.query;
+  if (amount && psid) {
     const deepLink = await api.createDeepLink(req.query, req.accessToken);
     res.send(deepLink);
   } else {
-    res.status(400).send("need query amount");
+    res.status(400).send("need query amount and psid");
   }
 });
 

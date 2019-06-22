@@ -18,7 +18,9 @@ async function login() {
       }
     });
     return response.data;
-  } catch (error) {}
+  } catch (error) {
+    console.log(error.response);
+  }
 }
 
 async function slipVerification(query, AccessToken) {
@@ -36,12 +38,14 @@ async function slipVerification(query, AccessToken) {
       }
     });
     return response.data;
-  } catch (error) {}
+  } catch (error) {
+    console.log(error.response);
+  }
 }
 
 async function createQrcode(query, AccessToken) {
-  const { amount } = query;
-  const ref1 = genRefCode.genRef1();
+  const { amount, psid } = query;
+  const ref1 = genRefCode.genRef1(psid);
   const ref2 = "DREAMTEAM";
   const ref3 = "SCBHACKATHON";
   try {
@@ -69,12 +73,14 @@ async function createQrcode(query, AccessToken) {
       }
     });
     return response.data;
-  } catch (error) {}
+  } catch (error) {
+    console.log(error.response);
+  }
 }
 
 async function createDeepLink(query, AccessToken) {
-  const { amount } = query;
-  const ref1 = genRefCode.genRef1();
+  const { amount, psid } = query;
+  const ref1 = genRefCode.genRef1(psid);
   const ref2 = "DREAMTEAM";
   try {
     const response = await axios({
@@ -119,7 +125,9 @@ async function createDeepLink(query, AccessToken) {
       }
     });
     return response.data;
-  } catch (error) {}
+  } catch (error) {
+    console.log(error.response);
+  }
 }
 
 module.exports = {
