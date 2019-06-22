@@ -73,10 +73,7 @@ app.get("/check-slip", async (req, res) => {
 });
 
 app.get("/qrcode", async (req, res) => {
-  const data = await api.login();
-  const qrcode = await api.createQrcode(
-    data.data.tokenType + " " + data.data.accessToken
-  );
+  const qrcode = await api.createQrcode(req.accessToken);
   console.log(qrcode);
   res.send(qrcode);
 });
