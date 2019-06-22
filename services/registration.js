@@ -1,4 +1,5 @@
 const connection = require('../connection/connection');
+const jwt = require("jwt-simple");
 
 async function checkIsUser(username){
     const result = await connection.pool.query(`SELECT t.Username FROM scbhackathon.Authentication t where t.Username = '${username}'`)
@@ -12,24 +13,26 @@ async function checkIsUser(username){
 
 async function register(registerData){
     let jsonData = registerData;
-    let condition = await checkIsUser(jsonData.Username);
+    let condition = await checkIsUser(jsonData.username);
     if(!condition){
-        let Token = "mockToken";
-        connection.pool.query(`INSERT INTO scbhackathon.Authentication (Username, Password, Token) VALUES ('${jsonData.Username}', '${jsonData.Password}', '${Token}')`)
+        return connection.pool.query(`INSERT INTO scbhackathon.Authentication (Username, Password) VALUES ('${jsonData.username}', '${jsonData.password}' )`)
         .then(result => {
-            return Token;
+            console.log(result);
+            return {boo: true, mes: "Register PASS!"};
         })
         .catch(err => {
-            console.log(err);    
+            console.log(err); 
+            return {boo: false, mes: "Error Cannot Register!"};   
         })
     }
     else{
         console.log("Duplicate Username");
-        return null;
+        return {boo: false, mes: "Duplicate Username"};
     }
     
 }
 
 module.exports = {
-    register 
+    register,
+    checkIsUser
 }
