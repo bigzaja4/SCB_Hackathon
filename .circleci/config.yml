@@ -1,0 +1,117 @@
+version: 2
+jobs:
+
+  build-dev-test:
+    working_directory: ~/neogamerui
+    docker:
+      - image: circleci/node:9.4.0
+    steps:
+      - checkout
+      
+      - restore_cache:
+          keys:
+          - dependencies-{{ checksum "src/package.json" }}
+      
+      - run:
+          name: Install gamer-fe dependencies
+          command: |
+            cd src
+            yarn
+      
+      - save_cache:
+          paths:
+            - node_modules
+          key: dependencies-{{ checksum "src/package.json" }} 
+            
+      - run:
+          name: Run build production
+          command: |
+            cd src
+            yarn build
+      
+      - run:
+          name: Run start production build
+          command: |
+            cd src
+            yarn start
+          background: true
+
+      - run:
+          name: Check production build with Ghost
+          command: |
+            wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+            unzip ngrok-stable-linux-amd64.zip
+            chmod +x ngrok
+            ./ngrok authtoken GJzEcD22YpfhqiJfvCUh_5NkwfFyeaDtZSqykRc7u6
+            ./ngrok http 3000
+          background: true
+
+      - run:
+          name: Execute Ghost Inspector
+          command: |
+            wget https://stedolan.github.io/jq/download/linux64/jq
+            chmod +x jq
+            curl "https://api.ghostinspector.com/v1/suites/5a97fdc0b8f224064728fb0d/execute/?apiKey=06b2d882e7b6ad3ecd016c2e77f49e3d0e45386a&startUrl=$(curl 'http://localhost:4040/api/tunnels' | ./jq -r '.tunnels[1].public_url')" > ghostinspector.json
+            if [ $(grep -c '"passing":false' ghostinspector.json) -ne 0 ]; then exit 1; fi
+
+  build:
+    working_directory: ~/neogamerui
+    docker:
+      - image: docker:18.02.0-ce-git
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build gamer-fe Docker image
+          command: |
+            docker build -t gamerfe .
+      - run:
+          name: Push gamer-fe Docker image
+          command: |
+              docker login repo.treescale.com -u $DOCKER_USER -p $DOCKER_PASS
+              docker tag gamerfe "repo.treescale.com/gamercom/gamerfe:latest"
+              docker tag gamerfe "repo.treescale.com/gamercom/gamerfe:1.1"
+              docker push "repo.treescale.com/gamercom/gamerfe:latest"
+              docker push "repo.treescale.com/gamercom/gamerfe:1.1"
+
+  deploy:
+    working_directory: ~/neogamerui
+    docker:
+      - image: gamercom/rancher-compose:1.0
+    steps:
+      - checkout
+      - run:
+          name: Deploy gamer-fe to fe-server
+          command:  |
+            export RANCHER_URL=$RANCHER_URL
+            export RANCHER_ACCESS_KEY=$RANCHER_ACCESS_KEY
+            export RANCHER_SECRET_KEY=$RANCHER_SECRET_KEY
+            export RANCHER_ENVIRONMENT=cattle
+            rancher-compose -p gamer-ui up --force-upgrade --pull --interval "1200000" --batch-size 6 -d
+
+workflows:
+  version: 2
+  build-dev-test-and-start:
+    jobs:
+      - build-dev-test:
+          filters:
+            branches:
+              only: develop
+            tags:
+              only: /^dev-*/
+  build-test-and-deploy:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: deploy
+      - hold:
+          type: approval
+          requires:
+            - build
+      - deploy:
+          requires:
+            - hold
+          filters:
+            branches:
+              only: deploy
