@@ -44,8 +44,23 @@ function recordTransaction(json) {
     });
 }
 
-function updateTransaction(json) {
-  let dataJson = json;
+function initTransaction(billPaymentRef1) {
+  return connection.pool
+    .query(
+      `INSERT INTO scbhackathon.Transaction (billPaymentRef1 , status ,UserId) 
+    VALUES ('${billPaymentRef1}' ,0,   1)`
+    )
+    .then(result => {
+      return result;
+    })
+    .catch(err => {
+      console.log(err);
+
+      return null;
+    });
+}
+
+function updateTransaction(dataJson) {
   var ts = dataJson.transactionDateandTime;
   let dateInput = moment(ts).format("YYYY-MM-DD");
   let timeInput = moment(ts).format("HH:mm");
@@ -71,9 +86,11 @@ function updateTransaction(json) {
     });
 }
 
-function getTransactionById(id) {
+function updateTransactionStatus(id) {
   return connection.pool
-    .query(`SELECT t.* FROM scbhackathon.Transaction t WHERE t.UserId = ${id}}`)
+    .query(
+      `UPDATE scbhackathon.Transaction SET status = '${1}' WHERE id = '${id}'`
+    )
     .then(result => {
       return result;
     })
@@ -83,18 +100,28 @@ function getTransactionById(id) {
     });
 }
 
-function initTransaction(billPaymentRef1) {
+function getTransactionById(id) {
+  return connection.pool
+    .query(`SELECT t.* FROM scbhackathon.Transaction t WHERE t.id = '${id}'`)
+    .then(result => {
+      return result;
+    })
+    .catch(err => {
+      console.log(err);
+      return null;
+    });
+}
+
+function getTransactionByUserId(userId) {
   return connection.pool
     .query(
-      `INSERT INTO scbhackathon.Transaction (billPaymentRef1 , status ,UserId) 
-    VALUES ('${billPaymentRef1}' ,0,   1)`
+      `SELECT t.* FROM scbhackathon.Transaction t WHERE t.UserId = '${userId}'`
     )
     .then(result => {
       return result;
     })
     .catch(err => {
       console.log(err);
-
       return null;
     });
 }
@@ -114,6 +141,31 @@ function getTransactionByUsername(username) {
       console.log(err);
       return null;
     });
+}
+
+function getTransactionByTransRefAndNotValidated(transRef) {
+  return connection.pool
+    .query(
+      `SELECT t.* FROM scbhackathon.Transaction t WHERE t.transRef = '${transRef}' AND t.status = 0`
+    )
+    .then(result => {
+      return result;
+    })
+    .catch(err => {
+      console.log(err);
+      return null;
+    });
+}
+
+async function validateTransaction(transRef) {
+  const result = await getTransactionByTransRefAndNotValidated(transRef);
+  if (result.length > 0) {
+    console.log("validate transRef");
+    updateTransactionStatus(result[0].id);
+  } else {
+    console.log("transRef not found");
+    return null;
+  }
 }
 
 function mapResult(preResult) {
@@ -136,7 +188,11 @@ function mapResult(preResult) {
 module.exports = {
   recordTransaction,
   getTransactionById,
+  getTransactionByUserId,
   getTransactionByUsername,
+  getTransactionByTransRefAndNotValidated,
   initTransaction,
-  updateTransaction
+  updateTransaction,
+  updateTransactionStatus,
+  validateTransaction
 };
