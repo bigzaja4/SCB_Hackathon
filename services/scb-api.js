@@ -1,4 +1,5 @@
 const axios = require("axios");
+const decryptQrCode = require("./decryptQRCode");
 
 async function login() {
   const response = await axios({
@@ -18,9 +19,10 @@ async function login() {
 }
 
 async function slipVerification(transRef, AccessToken) {
+  const realRef = decryptQrCode.decryptQrCode(transRef);
   const response = await axios({
     method: "get",
-    url: `https://api.partners.scb/partners/sandbox/v1/payment/billpayment/transactions/${transRef}?sendingBank=014`,
+    url: `https://api.partners.scb/partners/sandbox/v1/payment/billpayment/transactions/${realRef}?sendingBank=014`,
     headers: {
       authorization: AccessToken,
       requestUID: global.gConfig.requestUId,
