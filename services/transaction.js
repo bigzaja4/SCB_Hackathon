@@ -61,10 +61,31 @@ function recordTransaction(json){
 
 function getTransactionById(id){
     return connection.pool.query(`SELECT t.* FROM scbhackathon.Transaction t WHERE t.UserId = ${id}`)
-    .then(result => {   
+    .then(result => { 
         return result;
     })
     .catch(err => {
         console.log(err);
+        return null;
     })
+}
+
+function getTransactionByUsername(username){
+    return connection.pool.query(`SELECT t.* FROM scbhackathon.Transaction t
+    JOIN Authentication a ON t.UserId = a.Id
+    where a.Username = '${username}'`)
+    .then(result => { 
+        return result;
+    })
+    .catch(err => {
+        console.log(err);
+        return null;
+    })
+}
+
+
+module.exports = {
+    recordTransaction,
+    getTransactionById,
+    getTransactionByUsername
 }
