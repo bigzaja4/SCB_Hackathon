@@ -1,8 +1,8 @@
-function genRef1() {
-  let path1 = 12345;
-  let path2 = Math.floor(Math.random() * 1000000000);
-  let path3 = 54321;
-  return path1.toString() + path2.toString() + path3.toString();
+function genRef1(psid) {
+  let path1 = psid.length + "";
+  let path2 = psid;
+  let path3 = Math.floor(1 + Math.random() * 19);
+  return path1 + path2 + path3;
 }
 
 module.exports = {
