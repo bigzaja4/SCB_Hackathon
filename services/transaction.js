@@ -4,18 +4,18 @@ const moment = require('moment');
 var testJson = { 
     "payeeProxyId": '466546240814419',
     "payeeProxyType": 'BILLERID',
-    "payeeAccountNumber": '0987654321',
-    "payeeName": 'TestBiller1561128074',
+    "payeeAccountNumber": '0987654321', //value
+    "payeeName": 'TestBiller1561128074', //name
     "payerProxyId": '0812345678',
     "payerProxyType": 'MSISDN',
     "payerAccountNumber": '0123456789',
     "payerName": 'Kuntod Nanmeun',
-    "sendingBankCode": '014',
+    "sendingBankCode": '014', //sendingBank
     "receivingBankCode": '014',
-    "amount": 100,
-    "transactionId": '201906222i6HQTjQMUwMglK',
-    "transactionDateandTime": '2019-06-22T21:29:49+07:00',
-    "billPaymentRef1": '12345678901234567890',
+    "amount": 100, //paidLocalAmount
+    "transactionId": '201906222i6HQTjQMUwMglK', //transRef
+    "transactionDateandTime": '2019-06-22T21:29:49+07:00', //transDate, transTime
+    "billPaymentRef1": 'Test',
     "billPaymentRef3": '',
     "currencyCode": '764' 
 }    
@@ -26,8 +26,8 @@ function recordTransaction(json){
     let dateInput = moment(ts).format("YYYY-MM-DD");
     let timeInput = moment(ts).format("HH:mm");
     
-    return connection.pool.query(`INSERT INTO scbhackathon.Transaction (transRef, sendingBank, transDate, transTime, name, value, paidLocalAmount, UserId) 
-    VALUES ('${dataJson.transactionId}', '${dataJson.sendingBankCode}', '${dateInput}', '${timeInput}', '${dataJson.payerName}', '${dataJson.payeeAccountNumber}', ${dataJson.amount}, 1)`)
+    return connection.pool.query(`INSERT INTO scbhackathon.Transaction (transRef, sendingBank, transDate, transTime, name, value, paidLocalAmount, billPaymentRef1 , status ,UserId) 
+    VALUES ('${dataJson.transactionId}', '${dataJson.sendingBankCode}', '${dateInput}', '${timeInput}', '${dataJson.payerName}', '${dataJson.payerAccountNumber}', ${dataJson.amount},${dataJson.billPaymentRef1} ,0,   1)`)
     .then(result => {
         console.log(result);
         return result;
@@ -37,6 +37,26 @@ function recordTransaction(json){
     })
 }
 
+function updateTransaction(json){
+    let dataJson = json;
+    var ts = dataJson.transactionDateandTime;
+    let dateInput = moment(ts).format("YYYY-MM-DD");
+    let timeInput = moment(ts).format("HH:mm");
+
+    return connection.pool.query(`UPDATE scbhackathon.Transaction SET transRef = '${dataJson.transactionId}', sendingBank = '${dataJson.sendingBankCode}', transDate = '${dateInput}', 
+    transTime = '${timeInput}', name = '${dataJson.payerName}', value = '${dataJson.payerAccountNumber}', paidLocalAmount = ${dataJson.amount} 
+    WHERE billPaymentRef1 = '${dataJson.billPaymentRef1}'`)
+    .then(result => {
+        return result;
+    })
+    .catch(err => {
+        console.log(err);
+        return null;
+    })
+}
+
+updateTransaction(testJson);
+
 function getTransactionById(id){
     return connection.pool.query(`SELECT t.* FROM scbhackathon.Transaction t WHERE t.UserId = ${id}}`)
     .then(result => { 
@@ -44,6 +64,19 @@ function getTransactionById(id){
     })
     .catch(err => {
         console.log(err);
+        return null;
+    })
+}
+
+function initTransaction(billPaymentRef1){
+    return connection.pool.query(`INSERT INTO scbhackathon.Transaction (billPaymentRef1 , status ,UserId) 
+    VALUES ('${billPaymentRef1}' ,0,   1)`)
+    .then(result => {
+        return result;
+    })  
+    .catch(err => {
+        console.log(err);
+        
         return null;
     })
 }
@@ -79,10 +112,9 @@ function mapResult(preResult){
     return result;
 }
 
-getTransactionByUsername("admin");
-
 module.exports = {
     recordTransaction,
     getTransactionById,
-    getTransactionByUsername
+    getTransactionByUsername,
+    initTransaction
 }
