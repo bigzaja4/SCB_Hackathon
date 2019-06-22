@@ -5,7 +5,7 @@ const pool = mariadb.createPool({
     password: '12345678',
     host: 'hackathonscb.cfjis4ucqztr.ap-southeast-1.rds.amazonaws.com',
     port: 3306,
-    database: 'hackathonScb'
+    database: 'scbhackathon'
 })
 
 module.exports = {
