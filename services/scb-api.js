@@ -1,5 +1,6 @@
 const axios = require("axios");
-const decryptQrCode = require("./decryptQRCode");
+const decryptQrCode = require("./decryptQrCode");
+const genRefCode = require("./genRefCode");
 
 async function login() {
   try {
@@ -20,9 +21,10 @@ async function login() {
   } catch (error) {}
 }
 
-async function slipVerification(transRef, AccessToken) {
+async function slipVerification(query, AccessToken) {
+  const { slipRef } = query;
   try {
-    const realRef = decryptQrCode.decryptQrCode(transRef);
+    const realRef = decryptQrCode.decryptQrCode(slipRef);
     const response = await axios({
       method: "get",
       url: `https://api.partners.scb/partners/sandbox/v1/payment/billpayment/transactions/${realRef}?sendingBank=014`,
@@ -38,7 +40,10 @@ async function slipVerification(transRef, AccessToken) {
 }
 
 async function createQrcode(query, AccessToken) {
-  const { amount, ref1, ref2, ref3 } = query;
+  const { amount } = query;
+  const ref1 = genRefCode.genRef1();
+  const ref2 = "DREAMTEAM";
+  const ref3 = "SCBHACKATHON";
   try {
     const response = await axios({
       method: "post",
@@ -67,7 +72,10 @@ async function createQrcode(query, AccessToken) {
   } catch (error) {}
 }
 
-async function createDeepLink(AccessToken) {
+async function createDeepLink(query, AccessToken) {
+  const { amount } = query;
+  const ref1 = genRefCode.genRef1();
+  const ref2 = "DREAMTEAM";
   try {
     const response = await axios({
       method: "post",
@@ -80,11 +88,12 @@ async function createDeepLink(AccessToken) {
         channel: "scbeasy"
       },
       data: {
-        paymentAmount: 100,
+        paymentAmount: amount,
         transactionType: "PAYMENT",
         transactionSubType: "BPA",
-        ref1: "2003002913251522",
-        accountTo: "900242300232",
+        ref1: ref1,
+        ref2: ref2,
+        accountTo: global.gConfig.BillerID,
         merchantMetaData: {
           paymentInfo: [
             {

@@ -1,14 +1,12 @@
-var  mariadb = require('mariadb')
+var mariadb = require("mariadb");
 
 const pool = mariadb.createPool({
-    user: 'admin123',
-    password: '12345678',
-    host: 'hackathonscb.cfjis4ucqztr.ap-southeast-1.rds.amazonaws.com',
-    port: 3306,
-    database: 'hackathonScb'
-})
+  host: global.gConfig.db_host,
+  user: global.gConfig.db_user,
+  password: global.gConfig.db_password,
+  database: global.gConfig.db_database
+});
 
 module.exports = {
-    pool
-
-}
+  pool
+};
