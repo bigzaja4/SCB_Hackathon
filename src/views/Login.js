@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { Button, Form, Grid, Message, Segment } from 'semantic-ui-react'
-import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
+import { Button, Form, Grid, Message } from 'semantic-ui-react'
 import { Color } from '../utils'
 
 const Container = styled.div`
@@ -28,7 +27,7 @@ export default class extends Component {
   }
 
   _handleLoginCLick = () => {
-    
+    this.props.history.push('/home')
   }
 
   render() {
@@ -37,23 +36,22 @@ export default class extends Component {
         <Grid textAlign='center' style={{ height: '100vh', margin: 0 }} verticalAlign='middle'>
           <Grid.Column>
           <Form size='large'>
-            <Segment stacked>
-              <Form.Input fluid icon='user' iconPosition='left' placeholder='username' />
-              <Form.Input
-                fluid
-                icon='lock'
-                iconPosition='left'
-                placeholder='Password'
-                type='password'
-              />
-              <Router>
-                <Link to="/home">
-                  <Button color='violet' fluid size='large'>
-                    Login
-                  </Button>
-                </Link>
-              </Router>
-            </Segment>
+            <Form.Input fluid icon='user' iconPosition='left' placeholder='username' />
+            <Form.Input
+              fluid
+              icon='lock'
+              iconPosition='left'
+              placeholder='Password'
+              type='password'
+            />
+            <Button 
+              color='violet' 
+              fluid 
+              size='large'
+              onClick={this._handleLoginCLick}
+            >
+              Login
+            </Button>
           </Form>
           <Message>
             New to us? <a href='#'>Sign Up</a>
