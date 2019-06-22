@@ -78,7 +78,8 @@ app.get("/deeplink", async (req, res) => {
 
 app.post("/callback", (req, res) => {
   console.log(req.body);
-  res.send(req.body);
+  api.callBackLogic(req.body);
+  res.send("Ok");
 });
 
 async function setAccessToken({ data }) {

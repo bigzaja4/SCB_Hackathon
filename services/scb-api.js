@@ -1,6 +1,7 @@
 const axios = require("axios");
 const decryptQrCode = require("./decryptQrCode");
 const genRefCode = require("./genRefCode");
+const transaction = require("./transaction");
 
 async function login() {
   try {
@@ -72,6 +73,7 @@ async function createQrcode(query, AccessToken) {
         csExtExpiryTime: "60"
       }
     });
+    transaction.initTransaction(ref1);
     return response.data;
   } catch (error) {
     console.log(error.response);
@@ -124,15 +126,21 @@ async function createDeepLink(query, AccessToken) {
         }
       }
     });
+    transaction.initTransaction(ref1);
     return response.data;
   } catch (error) {
     console.log(error.response);
   }
 }
 
+function callBackLogic(data) {
+  return transaction.updateTransaction(data);
+}
+
 module.exports = {
   login,
   slipVerification,
   createQrcode,
-  createDeepLink
+  createDeepLink,
+  callBackLogic
 };
