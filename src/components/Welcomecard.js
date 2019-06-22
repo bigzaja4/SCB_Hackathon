@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card, Icon, Image } from 'semantic-ui-react'
 
-export default () => (
+export default ({handleClick}) => (
     <Card>
         <Image src='https://react.semantic-ui.com/images/avatar/large/matthew.png' wrapped ui={false} />
         <Card.Content>
@@ -18,6 +18,7 @@ export default () => (
                 <Icon name='user' />
                 22 Friends
             </a>
+            <button onClick={handleClick}> next </button>
         </Card.Content>
     </Card>
 )

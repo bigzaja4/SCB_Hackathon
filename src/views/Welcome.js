@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Color } from '../utils'
 import Welcomecard from '../components/Welcomecard'
+import ReactFullpage from '@fullpage/react-fullpage'
 
 
 const Container = styled.div`
@@ -12,7 +13,6 @@ const CardContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-top: 66px;
 `
 
 export default class extends Component {
@@ -31,8 +31,35 @@ export default class extends Component {
         return (
             <Container style={{height:'100vh'}}>
                 <CardContainer>
-                   <Welcomecard />
-                </CardContainer>
+                <ReactFullpage
+                    render={({ state, fullpageApi }) => {
+                    return (
+                       <center>
+                            <ReactFullpage.Wrapper
+                        style={{
+                            textAlign:'center',
+                            paddingLeft:'66px'
+                        }}>
+                        <div className="section">
+                            <p>Section 1 (welcome to fullpage.js)</p>
+                            <button onClick={() => fullpageApi.moveSectionDown()}>
+                            Click me to move down
+                            </button>
+                        </div>
+                        <div className="section">
+                            <p>Section 2</p>
+                        </div>
+                        <CardContainer className="section" >
+                            <Welcomecard handleClick={() => fullpageApi.moveSectionDown()} />
+                        </CardContainer>
+                        <div className="section">
+                            <p>Section 4</p>
+                        </div>
+                        </ReactFullpage.Wrapper>
+                       </center>
+                    );
+                    }}
+                />                </CardContainer>
             </Container>
         )
     }
