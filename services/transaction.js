@@ -1,55 +1,33 @@
 const connection = require('../connection/connection');
+const moment = require('moment');
 
-var testJson = {
-    "status": {
-        "code": 1000,
-        "description": "Success"
-    },
-    "data": {
-        "transRef": "201906225f3GFy43Qeh1vHp",
-        "sendingBank": "014",
-        "receivingBank": "014",
-        "transDate": "20190622",
-        "transTime": "10:06:41",
-        "sender": {
-            "displayName": "Suprapassara Jannapheang",
-            "name": "Suprapassara Jannapheang",
-            "proxy": {
-                "type": "MSISDN",
-                "value": "0812345678"
-            },
-            "account": {
-                "type": "BANKAC",
-                "value": "0123456789"
-            }
-        },
-        "receiver": {
-            "displayName": "TestBiller1561119707",
-            "name": "TestBiller1561119707",
-            "proxy": {
-                "type": "BILLERID",
-                "value": "483217414123442"
-            },
-            "account": {
-                "type": "BANKAC",
-                "value": "0987654321"
-            }
-        },
-        "amount": "5345.45",
-        "paidLocalAmount": "5345.45",
-        "paidLocalCurrency": "764",
-        "countryCode": "TH",
-        "ref1": "ABCDFGH",
-        "ref2": "IJKLNO",
-        "ref3": "SCBDREAM"
-    }
-};
+var testJson = { 
+    "payeeProxyId": '466546240814419',
+    "payeeProxyType": 'BILLERID',
+    "payeeAccountNumber": '0987654321',
+    "payeeName": 'TestBiller1561128074',
+    "payerProxyId": '0812345678',
+    "payerProxyType": 'MSISDN',
+    "payerAccountNumber": '0123456789',
+    "payerName": 'Kuntod Nanmeun',
+    "sendingBankCode": '014',
+    "receivingBankCode": '014',
+    "amount": 100,
+    "transactionId": '201906222i6HQTjQMUwMglK',
+    "transactionDateandTime": '2019-06-22T21:29:49+07:00',
+    "billPaymentRef1": '12345678901234567890',
+    "billPaymentRef3": '',
+    "currencyCode": '764' 
+}    
 
 function recordTransaction(json){
     let dataJson = json;
-
-    return connection.pool.query(`INSERT INTO scbhackathon.Transaction ( FullName, BankAccountNumber, TransactionDate, TransactionTime, Amount, UserId) VALUES ( '
-            ${dataJson.data.sender.displayName}', '${dataJson.data.sender.account.value}', '${dataJson.data.transDate}', '${dataJson.data.transTime}', ${dataJson.data.amount}, 1)`)
+    var ts = dataJson.transactionDateandTime;
+    let dateInput = moment(ts).format("YYYY-MM-DD");
+    let timeInput = moment(ts).format("HH:mm");
+    
+    return connection.pool.query(`INSERT INTO scbhackathon.Transaction (transRef, sendingBank, transDate, transTime, name, value, paidLocalAmount, UserId) 
+    VALUES ('${dataJson.transactionId}', '${dataJson.sendingBankCode}', '${dateInput}', '${timeInput}', '${dataJson.payerName}', '${dataJson.payeeAccountNumber}', ${dataJson.amount}, 1)`)
     .then(result => {
         console.log(result);
         return result;
@@ -60,7 +38,7 @@ function recordTransaction(json){
 }
 
 function getTransactionById(id){
-    return connection.pool.query(`SELECT t.* FROM scbhackathon.Transaction t WHERE t.UserId = ${id}`)
+    return connection.pool.query(`SELECT t.* FROM scbhackathon.Transaction t WHERE t.UserId = ${id}}`)
     .then(result => { 
         return result;
     })
@@ -73,9 +51,10 @@ function getTransactionById(id){
 function getTransactionByUsername(username){
     return connection.pool.query(`SELECT t.* FROM scbhackathon.Transaction t
     JOIN Authentication a ON t.UserId = a.Id
-    where a.Username = '${username}'`)
+    WHERE a.Username = '${username}'`)
     .then(result => { 
-        return result;
+        let res = result.map(row => mapResult(row));
+        return res;
     })
     .catch(err => {
         console.log(err);
@@ -83,6 +62,24 @@ function getTransactionByUsername(username){
     })
 }
 
+function mapResult(preResult){
+    let result = {        
+        "transRef": preResult.transRef,
+        "sendingBank": preResult.sendingBank,
+        "transDate": preResult.transDate,
+        "transTime": preResult.transTime,
+        "sender": {
+            "name": preResult.name,
+            "account": {
+                "value": preResult.value
+            }
+        },
+        "paidLocalAmount": preResult.paidLocalAmount
+    }
+    return result;
+}
+
+getTransactionByUsername("admin");
 
 module.exports = {
     recordTransaction,

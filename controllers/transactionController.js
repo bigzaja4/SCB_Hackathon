@@ -18,7 +18,6 @@ const getTransByUsername = (req, res) => {
     let username = req.user;
     return transactionService.getTransactionByUsername(username)
     .then(result => {
-        console.log(result);
         res.json(result);
     })
     .catch(err => {
