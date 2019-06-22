@@ -55,8 +55,6 @@ function updateTransaction(json){
     })
 }
 
-updateTransaction(testJson);
-
 function getTransactionById(id){
     return connection.pool.query(`SELECT t.* FROM scbhackathon.Transaction t WHERE t.UserId = ${id}}`)
     .then(result => { 
