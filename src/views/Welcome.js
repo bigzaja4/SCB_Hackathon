@@ -60,13 +60,14 @@ export default class extends Component {
     state = {
         index:0,
         welcomeCss:'TransactionBoxIn',
-        loading:false
+        loading:false,
     }
 
 
     componentDidMount() {
         // MARK: Check Token
         console.log("****** welcome developmetn")
+        console.log("process.env.",process.env)
     }
 
     handleClickNext = () => {
@@ -82,6 +83,20 @@ export default class extends Component {
         console.log('axios')
     }
 
+    handleInputVerify = (event) => {
+        let {value} = event.target
+        this.setState({inputVerify: value})
+    }
+    
+    handleInputToken= (event) => {
+        let {value} = event.target
+        this.setState({inputToken: value})
+    }
+
+    handleSubmit = () => {
+        console.log("Satate",this.state)
+    }
+
     render() {
         let {index} = this.state
         let selectedInfomationDatat = infomationData[index]
@@ -95,6 +110,11 @@ export default class extends Component {
                     handleClick={this.handleClickNext}
                     className={this.state.welcomeCss}
                     special={this.state.index == infomationData.length-1 ? true : false}
+                    token={this.state.token}
+                    verify={this.state.verify}
+                    handleInputToken={this.handleInputToken}
+                    handleInputVerify={this.handleInputVerify}
+                    handleSubmit={this.handleSubmit}
                     /> 
                 </CardContainer>
             </Container>
