@@ -16,7 +16,10 @@ const getLogin = (req,res) => {
         iat: new Date().getTime()
      };
      const SECRET = "MY_SECRET_KEY";
-     res.send(jwt.encode(payload, SECRET));
+     response = {
+        "token":jwt.encode(payload, SECRET)
+    }
+    res.json(response);
 }
 
 //ใช้ในการ decode jwt ออกมา
