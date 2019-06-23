@@ -131,6 +131,9 @@ async function createDeepLink(query, AccessToken) {
       }
     });
     transaction.initTransaction(ref1);
+    response.data.data.deeplinkUrl =
+      "https://zync-redirect.herokuapp.com?url=" +
+      response.data.data.deeplinkUrl;
     return response.data;
   } catch (error) {
     console.log(error.response);
