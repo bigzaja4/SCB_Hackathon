@@ -50,7 +50,7 @@ const infomationData  = [
         image:des2
     },
     {
-        title: '5. เลือกเพจที่จะมาต่ากับแอพ ',
+        title: '5. เลือกเพจที่จะมาต่อกับแอพ ',
         image:des6
     },
     {
@@ -69,7 +69,13 @@ export default class extends Component {
 
 
     componentDidMount() {
-        // MARK: Check Token
+        if(!localStorage.getItem("auth")){
+            this.props.history.push('/')
+        } else if(!localStorage.getItem("hasVisit")){
+            this.props.history.push('/welcome')
+        } else if (localStorage.getItem("hasVisit")) {
+            this.props.history.push('/home')
+        }
     }
 
     handleClickNext = () => {
@@ -110,13 +116,16 @@ export default class extends Component {
                 'Success !',
                 'Token Registed have fun!',
                 'success'
-            ).then(() => this.props.history.push('/home'))
+            ).then(() => {
+                this.props.history.push('/home');
+                localStorage.setItem("hasVisit",true)
+            })
         }else{
             Swal.fire(
                 'Fail !',
                 'Please!',
                 'error'
-              )
+            )
         }
         console.log("Satate",data)
     }

@@ -18,24 +18,31 @@ export default class extends Component {
   }
 
   componentDidMount() {
-    // MARK: Check Token
+    
   }
 
-  _handleLoginCLick = async() => {
-    console.log(this.state.username+"------"+this.state.password)
-    let data = await fetch('https://www.scbdreamteam.tk:3002/route/login',{
+  _handleLoginCLick = async () => {
+    console.log(this.state.username + "------" + this.state.password)
+    fetch('https://www.scbdreamteam.tk:3002/route/login', {
       method: "POST",
-      headers:{
-        "Content-Type":"application/json"
+      headers: {
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
         username: this.state.username,
         password: this.state.password
       })
+    }).then(res => res.json())
+    .then(json => {
+      if(json.token){
+        localStorage.setItem("auth",json.token)
+        this.props.history.push('/home')
+      }
+   
+
     })
-    console.log(data)
-    
-    // this.props.history.push('/home')
+
+
   }
 
   render() {
@@ -43,33 +50,33 @@ export default class extends Component {
       <Container>
         <Grid textAlign='center' style={{ height: '100vh', margin: 0 }} verticalAlign='middle'>
           <Grid.Column className="LoginBox">
-          <img style={{width: '99px',paddingBottom:'7px'}} src={appLogo} />
-          <h2 style={{paddingBottom:'4px'}}>Zync</h2>
-          <Form size='large'>
-            <Form.Input fluid icon='user' iconPosition='left' placeholder='username' onChange={(e)=>{this.setState({username: e.target.value})}} />
-            <Form.Input
-              fluid
-              icon='lock'
-              iconPosition='left'
-              placeholder='Password'
-              type='password'
-              onChange={(e)=>{this.setState({password: e.target.value})}}
-            />
-            <Button 
-              color='violet' 
-              fluid 
-              size='large'
-              onClick={this._handleLoginCLick}
-            >
-              Login
+            <img style={{ width: '99px', paddingBottom: '7px' }} src={appLogo} />
+            <h2 style={{ paddingBottom: '4px' }}>Zync</h2>
+            <Form size='large'>
+              <Form.Input fluid icon='user' iconPosition='left' placeholder='username' onChange={(e) => { this.setState({ username: e.target.value }) }} />
+              <Form.Input
+                fluid
+                icon='lock'
+                iconPosition='left'
+                placeholder='Password'
+                type='password'
+                onChange={(e) => { this.setState({ password: e.target.value }) }}
+              />
+              <Button
+                color='violet'
+                fluid
+                size='large'
+                onClick={this._handleLoginCLick}
+              >
+                Login
             </Button>
-          </Form>
-          <Message>
-            New to us? <a href='#'>Sign Up</a>
-          </Message>
-        </Grid.Column>
-      </Grid>
-    </Container>
+            </Form>
+            <Message>
+              New to us? <a href='#'>Sign Up</a>
+            </Message>
+          </Grid.Column>
+        </Grid>
+      </Container>
     )
   }
 }

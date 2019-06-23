@@ -29,7 +29,7 @@ const WrapCardDescription = styled(Grid.Column)`
 export default class TransactionModal extends React.Component {
 
   state = {
-    index: 0,
+    index: this.props.i,
     data: this.props.data,
     CardClass: "CardSlideFx"
   } 
@@ -70,8 +70,8 @@ export default class TransactionModal extends React.Component {
               <Card.Content>
               <p style={{float: "right",backgroundColor:"#ff6464",color:"white",width:"8%",borderRadius:"100%"}} onClick={()=> {this.props.closeModal()}}> X</p>
                 <Image floated='left' size='tiny' src={scbLogo} />
-                <Card.Header textAlign="left">{(data[index] && data[index].name) || 'Lorem Ipsum'}</Card.Header>
-                <Card.Header textAlign="left">{bankNumberFormatter((data[index].value), 'xxx-xxxyyy-y')}</Card.Header>
+                <Card.Header textAlign="left">{(data[index] && data[index].sender.name) || "Lorem"}</Card.Header>
+                <Card.Header textAlign="left">{bankNumberFormatter(this.state.data[index].sender.account.value,'xxx-xxxyyy-y')}</Card.Header>
                 <Card.Meta textAlign="left">
                   {data[index] && data[index].transDate || '22 / 06 / 2019'}&nbsp;
                   {data[index] && data[index].transTime || '10:06'} น.
@@ -89,7 +89,7 @@ export default class TransactionModal extends React.Component {
                       </Grid.Column>
                       <Grid.Column width={3} />
                       <Grid.Column width={4}>
-                        <Card.Description><strong>{Intl.NumberFormat('en-IN', {maximumSignificantDigits: 3}).format((data[index] && data[index].paidLocalAmount) || '5345.455')}</strong></Card.Description>
+                        <Card.Description><strong>{Intl.NumberFormat('en-IN', {maximumSignificantDigits: 3}).format((data[index] && data[index].paidLocalAmount)|| '5345.45')}.-</strong></Card.Description>
                       </Grid.Column>
                       <Grid.Column width={3}>
                         <Card.Description><strong>฿</strong></Card.Description>
@@ -101,7 +101,7 @@ export default class TransactionModal extends React.Component {
                       </Grid.Column>
                       <Grid.Column width={3} />
                       <Grid.Column width={7}>
-                        <WrapCardDescription className="description">{(data[index] && data[index].transRef) || '201906225f3GFy43Qeh1vHp'}</WrapCardDescription>
+                        <WrapCardDescription className="description">{(data[index] && data[index].transRef)|| '201906225f3GFy43Qeh1vHp'}</WrapCardDescription>
                       </Grid.Column>
                     </Grid.Row>
                   </Grid>
