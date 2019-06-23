@@ -18,6 +18,10 @@ const client = redis.createClient(
 const getAsync = promisify(client.get).bind(client);
 const setAsync = promisify(client.set).bind(client);
 
+client.on("error", function(err) {
+  console.error("Error connecting to redis", err);
+});
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -78,7 +82,8 @@ app.get("/deeplink", async (req, res) => {
 
 app.post("/callback", (req, res) => {
   console.log(req.body);
-  res.send(req.body);
+  api.callBackLogic(req.body);
+  res.send("Ok");
 });
 
 async function setAccessToken({ data }) {
