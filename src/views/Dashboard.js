@@ -1,13 +1,10 @@
 import React from 'react';
 import './Dashboard.css';
 import { Grid } from 'semantic-ui-react'
-<<<<<<< Updated upstream
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 import TranModal from '../components/TransactionModal'
 
 export default class Dashboard extends React.Component {
-=======
->>>>>>> Stashed changes
 
   state = {
     userName: "Mr. John",
@@ -132,6 +129,7 @@ export default class Dashboard extends React.Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
+      </div>
       </div>
     );
   }
