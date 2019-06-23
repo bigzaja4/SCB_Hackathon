@@ -16,7 +16,10 @@ const getLogin = (req,res) => {
         iat: new Date().getTime()
      };
      const SECRET = "MY_SECRET_KEY";
-     res.send(jwt.encode(payload, SECRET));
+     response = {
+        "token":jwt.encode(payload, SECRET)
+    }
+    res.json(response);
 }
 
 //ใช้ในการ decode jwt ออกมา
@@ -38,8 +41,21 @@ passport.use(jwtAuth);
 
 const requireJWTAuth = passport.authenticate("jwt",{session:false});
 
+const getUserInfo = (req,res) => {
+    let username = req.user;
+    return login.userInformation(username)
+    .then(result => {
+        res.json(result);
+    })
+    .catch(err => {
+        console.log(err);
+        res.send("Error");
+    })
+}
+
 module.exports = {
     loginMiddleware,
     getLogin,
-    requireJWTAuth
+    requireJWTAuth,
+    getUserInfo
 }

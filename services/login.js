@@ -36,6 +36,18 @@ function  login(jsonLogin) {
     })
 }
 
+function userInformation(username){
+    return connection.pool.query(`SELECT t.Username,t.Token,t.Verify, t.tier  FROM scbhackathon.Authentication t WHERE t.Username = '${username}'`)
+    .then(result => {
+        return result;
+    })
+    .catch(err => {
+        console.log(err);
+        return null;
+    })
+}
+
  module.exports = {
-     checkIsLoginPass
+     checkIsLoginPass,
+     userInformation
  }
