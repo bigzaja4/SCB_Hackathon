@@ -115,9 +115,9 @@ export default class extends Component {
                 'Success !',
                 'Token Registed have fun!',
                 'success'
-            ).then(() => {
-                this.props.history.push('/home');
-                localStorage.setItem("hasVisit",true)
+                ).then(() => {
+                    localStorage.setItem("hasVisit",true)
+                    this.props.history.push('/home');
             })
         }else{
             Swal.fire(
