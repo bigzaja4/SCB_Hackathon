@@ -8,5 +8,6 @@ router.post("/login",loginController.loginMiddleware,loginController.getLogin);
 router.post("/register",registerController.regisCon);
 router.get("/transaction",loginController.requireJWTAuth,transactionController.getTransByUsername);
 router.post("/regisApi",registerController.keyAndVerify);
+router.get("/getUserInformation",loginController.requireJWTAuth,loginController.getUserInfo);
 
 module.exports = router;

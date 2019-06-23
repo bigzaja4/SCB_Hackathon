@@ -38,8 +38,21 @@ passport.use(jwtAuth);
 
 const requireJWTAuth = passport.authenticate("jwt",{session:false});
 
+const getUserInfo = (req,res) => {
+    let username = req.user;
+    return login.userInformation(username)
+    .then(result => {
+        res.json(result);
+    })
+    .catch(err => {
+        console.log(err);
+        res.send("Error");
+    })
+}
+
 module.exports = {
     loginMiddleware,
     getLogin,
-    requireJWTAuth
+    requireJWTAuth,
+    getUserInfo
 }

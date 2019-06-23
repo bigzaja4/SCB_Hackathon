@@ -15,7 +15,7 @@ var testJson = {
     "amount": 100, //paidLocalAmount
     "transactionId": '201906222i6HQTjQMUwMglK', //transRef
     "transactionDateandTime": '2019-06-22T21:29:49+07:00', //transDate, transTime
-    "billPaymentRef1": 'Test',
+    "billPaymentRef1": '16123456789012345618',
     "billPaymentRef3": '',
     "currencyCode": '764' 
 }    
