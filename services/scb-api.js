@@ -38,7 +38,10 @@ async function slipVerification(query, AccessToken) {
         "accept-language": "EN"
       }
     });
-    transaction.validateTransaction(response.data.data.transRef);
+    const massage = await transaction.validateTransaction(
+      response.data.data.transRef
+    );
+    response.data = { ...response.data, massage };
     return response.data;
   } catch (error) {
     console.log(error.response);
@@ -128,6 +131,11 @@ async function createDeepLink(query, AccessToken) {
       }
     });
     transaction.initTransaction(ref1);
+    let deepLink = response.data.data.deeplinkUrl;
+    let encodeDeepLink = encodeURIComponent(deepLink);
+    response.data.data.deeplinkUrl =
+      "https://zync-redirect.herokuapp.com?url=" + encodeDeepLink;
+    console.log(response.data.data.deeplinkUrl);
     return response.data;
   } catch (error) {
     console.log(error.response);

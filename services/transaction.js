@@ -1,6 +1,7 @@
 const connection = require("../connection/connection");
 const moment = require("moment");
 
+<<<<<<< HEAD
 var testJson = { 
     "payeeProxyId": '466546240814419',
     "payeeProxyType": 'BILLERID',
@@ -19,6 +20,26 @@ var testJson = {
     "billPaymentRef3": '',
     "currencyCode": '764' 
 }    
+=======
+var testJson = {
+  payeeProxyId: "466546240814419",
+  payeeProxyType: "BILLERID",
+  payeeAccountNumber: "0987654321", //value
+  payeeName: "TestBiller1561128074", //name
+  payerProxyId: "0812345678",
+  payerProxyType: "MSISDN",
+  payerAccountNumber: "0123456789",
+  payerName: "Kuntod Nanmeun",
+  sendingBankCode: "014", //sendingBank
+  receivingBankCode: "014",
+  amount: 100, //paidLocalAmount
+  transactionId: "201906222i6HQTjQMUwMglK", //transRef
+  transactionDateandTime: "2019-06-22T21:29:49+07:00", //transDate, transTime
+  billPaymentRef1: "16123456789012345618",
+  billPaymentRef3: "",
+  currencyCode: "764"
+};
+>>>>>>> 8bd619aae229df1e58288316498681f5a7585578
 
 function recordTransaction(json) {
   let dataJson = json;
@@ -163,10 +184,16 @@ async function validateTransaction(transRef) {
   const result = await getTransactionByTransRefAndNotValidated(transRef);
   if (result.length > 0) {
     console.log("validate transRef");
-    updateTransactionStatus(result[0].id);
+    const resultUpdate = await updateTransactionStatus(result[0].Id);
+    console.log(resultUpdate);
+    if (resultUpdate) {
+      return { message: "This slip is already validate" };
+    } else {
+      return { message: "This slip is already validate" };
+    }
   } else {
     console.log("transRef not found");
-    return null;
+    return { message: "This slip is not found" };
   }
 }
 
