@@ -38,7 +38,10 @@ async function slipVerification(query, AccessToken) {
         "accept-language": "EN"
       }
     });
-    transaction.validateTransaction(response.data.data.transRef);
+    const massage = await transaction.validateTransaction(
+      response.data.data.transRef
+    );
+    response.data = { ...response.data, massage };
     return response.data;
   } catch (error) {
     console.log(error.response);

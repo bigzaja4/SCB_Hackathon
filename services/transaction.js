@@ -161,7 +161,11 @@ async function validateTransaction(transRef) {
   const result = await getTransactionByTransRefAndNotValidated(transRef);
   if (result.length > 0) {
     console.log("validate transRef");
-    updateTransactionStatus(result[0].id);
+    const resultUpdate = await updateTransactionStatus(result[0].id);
+    if (resultUpdate) {
+      return { message: "This slip is already validate" };
+    }
+    return { message: "This slip is already validate" };
   } else {
     console.log("transRef not found");
     return null;
