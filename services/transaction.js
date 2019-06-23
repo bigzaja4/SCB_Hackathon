@@ -4,18 +4,18 @@ const moment = require("moment");
 var testJson = { 
     "payeeProxyId": '466546240814419',
     "payeeProxyType": 'BILLERID',
-    "payeeAccountNumber": '0987654321', //value
+    "payeeAccountNumber": '0899654321', //value
     "payeeName": 'TestBiller1561128074', //name
     "payerProxyId": '0812345678',
     "payerProxyType": 'MSISDN',
-    "payerAccountNumber": '0123456789',
+    "payerAccountNumber": '0394679833',
     "payerName": 'Kuntod Nanmeun',
     "sendingBankCode": '014', //sendingBank
     "receivingBankCode": '014',
-    "amount": 100, //paidLocalAmount
-    "transactionId": '201906222i6HQTjQMUwMglK', //transRef
+    "amount": 996.69, //paidLocalAmount
+    "transactionId": '201906222i6HLpOLeoeGpol', //transRef
     "transactionDateandTime": '2019-06-22T21:29:49+07:00', //transDate, transTime
-    "billPaymentRef1": '16123456789012345618',
+    "billPaymentRef1": '89873876800395023618',
     "billPaymentRef3": '',
     "currencyCode": '764' 
 }    
@@ -43,6 +43,8 @@ function recordTransaction(json) {
       console.log(err);
     });
 }
+
+recordTransaction(testJson);
 
 function initTransaction(billPaymentRef1) {
   return connection.pool
