@@ -165,11 +165,12 @@ async function validateTransaction(transRef) {
     console.log(resultUpdate);
     if (resultUpdate) {
       return { message: "This slip is already validate" };
+    } else {
+      return { message: "This slip is already validate" };
     }
-    return { message: "This slip is already validate" };
   } else {
     console.log("transRef not found");
-    return null;
+    return { message: "This slip is not found" };
   }
 }
 
