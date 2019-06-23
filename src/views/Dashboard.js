@@ -21,10 +21,11 @@ export default class Dashboard extends React.Component {
    
     fetch('https://www.scbdreamteam.tk:3002/route/transaction',{
       headers:{
-        "Authorization":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTU2MTIwMzQ3NDExN30.rjLuUjSzipdVd8XlgqrLgU3f_DVg4Q_VW-VotlbMKow"
+        "Authorization":localStorage.getItem('auth')
       }})
       .then(res => res.json())
       .then(json =>{
+        console.log(json)
         json.map( e => {
           if(e.transRef){
             this.setState({data: this.state.data.concat(e)})
@@ -115,7 +116,7 @@ export default class Dashboard extends React.Component {
           </Grid>
         </div>
 
-      <div className="TransactionBox">
+      <div>
         <Grid columns={3} id="DGrid">
           <Grid.Row id="DRow">
             <Grid.Column>
