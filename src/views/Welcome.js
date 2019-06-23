@@ -29,7 +29,6 @@ const CardContainer = styled.div`
     display: flex;
     top: -37px;
     justify-content: center;
-    align-items: center;
 `
 
 const infomationData  = [
@@ -134,9 +133,9 @@ export default class extends Component {
         let {index} = this.state
         let selectedInfomationDatat = infomationData[index]
         return (
-            <Container style={{height:'100vh',paddingTop:'160px'}}>
-                <Image src={appLogo} style={{width:'78px'}} />
-                <h2 style={{paddingLeft: '79px',position:'relative',top:'-85px',color: '#E7C200' }}>Getting Started</h2>
+            <Container style={{height:'100vh',paddingTop:'60px'}}>
+                <Image src={appLogo} style={{paddingLeft: '20px',width:'78px'}} />
+                <h2 style={{paddingLeft: '79px',position:'relative',top:'-75px',color: '#E7C200' }}>Getting Started</h2>
                 <CardContainer>
                     <Welcomecard
                     image={selectedInfomationDatat.image}
